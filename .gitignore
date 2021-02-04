@@ -1,3 +1,5 @@
-.vscode
-BookStore/BookStore.WebApp/bin
-BookStore/BookStore.WebApp/obj
+/.vscode
+/BookStore/.vs
+/BookStore/BookStore.WebApp/bin
+/BookStore/BookStore.WebApp/obj
+/BookStore/BookStore.WebApp/wwwroot/lib
