@@ -2,8 +2,19 @@
 
 <html lang="en">
     <head>
-        <title>@ViewBag.Title</title>
-        <link href="~/lib/bootstrap/css/bootstrap.css" rel="stylesheet">
+        <title>@ViewBag.Title | Book Store Application</title>
+        <environment include="Development">
+            <link href="~/lib/bootstrap/css/bootstrap.css" rel="stylesheet">
+        </environment>
+        <environment exclude="Development">
+            <link rel="stylesheet"
+                href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+                asp-fallback-href="~/lib/bootstrap/css/bootstrap.min.css"
+                asp-fallback-test-class="sr-only"
+                asp-fallback-test-property="position"
+                asp-fallback-test-value="absolute"
+                crossorigin="anonymous">
+        </environment>
         <link href="~/css/style.css" rel="stylesheet">
     </head>
     <body>
@@ -24,13 +35,13 @@
                         </a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" href="#">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link disabled" href="#">Contact</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" asp-controller="Book" asp-action="ShowBooks">All Books</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Pricing</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link disabled" href="#">Disabled</a>
                     </li>
                 </ul>
             </div>
@@ -61,7 +72,12 @@
         </footer>
     </body>
     
-    <script src="~/lib/jquery/jquery.js"></script>
+    <environment include="Development">
+        <script src="~/lib/jquery/jquery.js"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="~/lib/jquery/jquery.min.js"></script>
+    </environment>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
     @RenderSection("scripts", required: false)
