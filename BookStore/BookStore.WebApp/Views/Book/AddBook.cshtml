@@ -1,0 +1,64 @@
+@model Book
+@{
+    ViewBag.Title = "Add New Book";
+}
+
+<div class="container">
+    <h3 class="display-4">Add Book</h3>
+    <form method="post" asp-controller="Book" asp-action="AddBook">
+        <div asp-validation-summary="All" class="text-danger"></div>
+        <div class="form-group">
+            <label asp-for="Title"></label>
+            <div>
+                <input class="form-control" asp-for="Title">
+                <span class="text-danger" asp-validation-for="Title"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Author"></label>
+            <div>
+                <input class="form-control" asp-for="Author">
+                <span class="text-danger" asp-validation-for="Author"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Description"></label>
+            <textarea class="form-control" asp-for="Description" placeholder="Brief Description of The Book"></textarea>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Category"></label>
+            <div>
+                <select class="form-control" asp-for="Category" 
+                        asp-items="Html.GetEnumSelectList<BookCategory>()">
+                </select>
+                <span class="text-danger" asp-validation-for="Category"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Language"></label>
+            <div>
+                <select class="form-control" asp-for="Language"
+                        asp-items="Html.GetEnumSelectList<BookLanguage>()">
+                    <option value="">Please Select</option>
+                </select>
+                <span class="text-danger" asp-validation-for="Language"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="TotalPages"></label>
+            <div>
+                <input class="form-control" asp-for="TotalPages">
+                <span class="text-danger" asp-validation-for="TotalPages"></span>
+            </div>
+        </div>
+
+        <div>
+            <input type="submit" value="Add Book" class="btn btn-primary">
+        </div>
+    </form>
+</div>
