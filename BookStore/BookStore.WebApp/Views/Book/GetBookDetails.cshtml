@@ -1,7 +1,6 @@
-@model Book
+@model BookViewModel
 @{
     ViewBag.Title = Model.Title + " Book Details";
-    var categories = Model.Categories.ToList();
 }
 
 <div class="container">
@@ -69,17 +68,10 @@
 
             <ul class="list-group">
                 <li class="list-group-item"><span class="font-weight-bold">Categories - </span>
-                    @for (int i = 0; i < categories.Count; i++)
-                    {
-                        <span>@categories[i]</span>
-                        @if (i < categories.Count-1)
-                        {
-                            <span>|</span>                            
-                        }
-                    }
+                    <span>@String.Join(" | ", Model.CategoryNames)</span>
                 </li>
                 <li class="list-group-item"><span class="font-weight-bold">Total pages - </span> @Model.TotalPages</li>
-                <li class="list-group-item"><span class="font-weight-bold">Language - </span> @Model.Language</li>
+                <li class="list-group-item"><span class="font-weight-bold">Language - </span> @Model.LanguageName</li>
             </ul>
         </div>
     </div>

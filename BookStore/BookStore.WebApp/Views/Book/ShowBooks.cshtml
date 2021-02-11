@@ -1,4 +1,4 @@
-@model IEnumerable<Book>
+@model IEnumerable<BookViewModel>
 @{
     ViewBag.Title = "Books";
 }
@@ -16,7 +16,7 @@
                         <p class="card-text">@book.Description</p>
                         <div class="d-flex justify-content-between align-items-center">
                             <div class="btn-group">
-                                <a asp-controller="Book" asp-action="GetBook" asp-route-id="@book.Id" 
+                                <a asp-controller="Book" asp-action="GetBookDetails" asp-route-id="@book.Id" 
                                     class="btn btn-sm btn-outline-secondary">View details</a>
                             </div>
                             <small class="text-muted">@book.Author</small>
