@@ -28,8 +28,11 @@ namespace BookStore.WebApp.Models
         [Required]
         public int LanguageId { get; set; }
 
+        public string CoverPhotoPath { get; set; }
+
         // Navigation Properties
         public Language Language { get; set; }
+        
         public ICollection<Category> Category { get; set; }
     }
 }
