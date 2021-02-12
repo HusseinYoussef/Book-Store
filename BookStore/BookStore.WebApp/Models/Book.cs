@@ -18,16 +18,18 @@ namespace BookStore.WebApp.Models
 
         public string Description { get; set; }
 
-        [Required(ErrorMessage="Select one or more category")]
-        [Display(Name="Categories")]
-        public IEnumerable<string> Categories { get; set; }
-    
-        [Required(ErrorMessage="Select a language")]
-        public BookLanguage? Language { get; set; }
+        [Required]
+        public int? TotalPages { get; set; }
+
+        public DateTime? CreatedAt { get; set; }
+
+        public DateTime? UpdatedAt { get; set; }
 
         [Required]
-        [Range(100, 1000, ErrorMessage="Pages number should be in range 100 and 1000")]
-        [Display(Name="Number of Pages")]
-        public int? TotalPages {get; set;}
+        public int LanguageId { get; set; }
+
+        // Navigation Properties
+        public Language Language { get; set; }
+        public ICollection<Category> Category { get; set; }
     }
 }
