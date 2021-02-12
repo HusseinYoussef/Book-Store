@@ -86,30 +86,6 @@ namespace BookStore.WebApp.Data
                     Id=7, Name="Japanese"
                 }
             );
-
-            Book book1 = new Book(){
-                Id=1, Title="MVC",
-                Author="Vincent Maverick", Description="This is the description of MVC Book",
-                LanguageId=6, TotalPages=530, Category = new List<Category>()
-            };
-
-            Book book2 = new Book(){
-                Id=1, Title="C#",
-                Author="Joseph Albahari", Description="This is the description of C# Book",
-                LanguageId=3, TotalPages=350, Category = new List<Category>()
-            };
-
-            Book book3 = new Book(){
-                Id=1, Title="The Witcher",
-                Author="Andrzej Sapkowski", Description="This is the description of The Witcher Book",
-                LanguageId=1, TotalPages=700, Category = new List<Category>()
-            };
-
-            book1.Category.Add(new Category(){Id=8, Name="Development"});
-            book1.Category.Add(new Category(){Id=9, Name="Guide"});
-            book2.Category.Add(new Category(){Id=8, Name="Development"});
-            book3.Category.Add(new Category(){Id=2, Name="Fantasy"});
-            book3.Category.Add(new Category(){Id=4, Name="Thriller"});
         }
     }
 }
