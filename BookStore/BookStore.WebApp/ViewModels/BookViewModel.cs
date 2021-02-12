@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using BookStore.WebApp.Validations;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace BookStore.WebApp.ViewModels
@@ -10,7 +12,7 @@ namespace BookStore.WebApp.ViewModels
         public int Id { get; set; }
 
         [Required]
-        [StringLength(100, MinimumLength=5)]
+        [StringLength(100, MinimumLength=3)]
         public string Title { get; set; }
 
         [Required]
@@ -35,5 +37,12 @@ namespace BookStore.WebApp.ViewModels
         public IEnumerable<int> CategoryIds { get; set; }
 
         public IEnumerable<string> CategoryNames { get; set; }
+
+        [Required]
+        [ImageExtensions]
+        [Display(Name="Choose Cover Photo")]
+        public IFormFile CoverPhoto { get; set; }
+
+        public string CoverPhotoPath { get; set; }
     }
 }
