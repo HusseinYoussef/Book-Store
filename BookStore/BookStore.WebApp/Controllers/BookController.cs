@@ -7,6 +7,8 @@ using BookStore.WebApp.ViewModels;
 using BookStore.WebApp.Models;
 using Microsoft.AspNetCore.Mvc;
 using BookStore.WebApp.Enums;
+using System.IO;
+using Microsoft.AspNetCore.Hosting;
 
 namespace BookStore.WebApp.Controllers
 {
@@ -16,18 +18,21 @@ namespace BookStore.WebApp.Controllers
         private readonly ILanguageRepository _languageRepository;
         private readonly ICategoryRepository _categoryRepository;
         private readonly IMapper _mapper;
+        private readonly IWebHostEnvironment _env;
 
         public BookController(
                             IBookRepository bookRepository,
                             ILanguageRepository languageRepository,
                             ICategoryRepository categoryRepository,
-                            IMapper mapper
+                            IMapper mapper,
+                            IWebHostEnvironment env
                         )
         {
             _bookRepository = bookRepository;
             _languageRepository = languageRepository;
             _categoryRepository = categoryRepository;
             _mapper = mapper;
+            _env = env;
         }
 
         [Route("Books/AllBooks")]
@@ -63,6 +68,11 @@ namespace BookStore.WebApp.Controllers
             {
                 return View(newBook);
             }
+            string folder = "images/book/cover/";
+            string path = folder + Guid.NewGuid().ToString() + "_" + newBook.CoverPhoto.FileName;
+            string serverFolder = Path.Combine(_env.WebRootPath, path);
+            await newBook.CoverPhoto.CopyToAsync(new FileStream(serverFolder, FileMode.Create));
+            newBook.CoverPhotoPath = "/" + path;
             Book book = _mapper.Map<Book>(newBook);
             try
             {
@@ -72,6 +82,7 @@ namespace BookStore.WebApp.Controllers
                 {
                     book.Category.Add(category);
                 }
+                book.CreatedAt = book.UpdatedAt = DateTime.Now;
                 int bookId = await _bookRepository.AddBook(book);
                 return RedirectToAction(nameof(AddBook), new {status=AddBookStatus.Success, bookId=bookId});
             }
