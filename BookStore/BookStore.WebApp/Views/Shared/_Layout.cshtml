@@ -18,58 +18,15 @@
         <link href="~/css/site.css" rel="stylesheet">
     </head>
     <body>
-        <header>
-            <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-            <a class="navbar-brand" asp-controller="Home" asp-action="Index">
-                <img src="~/images/logo.png" width="30" height="30" class="d-inline-block align-top" alt="logo" asp-append-version="true">
-                Books Store
-            </a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link" asp-controller="Home" asp-action="Index">
-                            Home <span class="sr-only">(current)</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">About</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link disabled" href="#">Contact</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" asp-controller="Book" asp-action="ShowBooks">All Books</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" asp-controller="Book" asp-action="AddBook">Add New Book</a>
-                    </li>
-                </ul>
-            </div>
-            <div class="collapse navbar-collapse justify-content-end" id="navbarCollapse">
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Login</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Register</a>
-                </li>
-            </ul>
-            </div>
-            </nav>
-        </header>
+
+        <partial name="_header"/>
 
         <main>
             @RenderBody()
         </main>
 
-        <footer class="border-top footer text-muted">
-            <div class="container">
-                Copyrights  &copy; Book Store @DateTime.Now.Year
-            </div>
-        </footer>
+        <partial name="_footer"/>
+        
     </body>
 
     <environment include="Development">
