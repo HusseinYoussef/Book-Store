@@ -44,5 +44,19 @@ namespace BookStore.WebApp.ViewModels
         public IFormFile CoverPhoto { get; set; }
 
         public string CoverPhotoPath { get; set; }
+
+        [Required]
+        [ImageExtensions]
+        [Display(Name="Gallery")]
+        public IFormFileCollection GalleryFiles { get; set; }
+
+        public List<GalleryViewModel> Gallery { get; set; }
+
+        [Required]
+        [Display(Name="Upload book in pdf format")]
+        [PdfExtension]
+        public IFormFile Pdf { get; set; }
+
+        public string PdfPath { get; set; }
     }
 }
