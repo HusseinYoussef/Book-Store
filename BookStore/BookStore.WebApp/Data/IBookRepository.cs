@@ -9,6 +9,7 @@ namespace BookStore.WebApp.Data
     {
         Task<IEnumerable<Book>> GetAllBooks();
         Task<Book> GetBookById(int id);
+        Task<bool> CheckBookName(string name);
         Task<int> AddBook(Book newBook);
     }
 }

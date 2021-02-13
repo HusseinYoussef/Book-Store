@@ -24,6 +24,12 @@ namespace BookStore.WebApp.Data
             return newBook.Id;
         }
 
+        public async Task<bool> CheckBookName(string name)
+        {
+            Book book = await _context.Books.FirstOrDefaultAsync(b => b.Title==name);
+            return book!=null;
+        }
+
         public async Task<IEnumerable<Book>> GetAllBooks()
         {
             IEnumerable<Book> books = await _context.Books.ToListAsync();
@@ -35,6 +41,7 @@ namespace BookStore.WebApp.Data
             Book book = await _context.Books.Where(b => b.Id==id)
                                             .Include(b => b.Language)
                                             .Include(b => b.Category)
+                                            .Include(b => b.BookGallery)
                                             .FirstOrDefaultAsync();
             return book;
         }
