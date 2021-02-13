@@ -9,6 +9,8 @@ using Microsoft.AspNetCore.Mvc;
 using BookStore.WebApp.Enums;
 using System.IO;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using System.Linq;
 
 namespace BookStore.WebApp.Controllers
 {
@@ -46,7 +48,9 @@ namespace BookStore.WebApp.Controllers
         public async Task<ViewResult> GetBookDetails(int id)
         {
             Book book = await _bookRepository.GetBookById(id);
-            return View(_mapper.Map<BookViewModel>(book));
+            BookViewModel bookModel = _mapper.Map<BookViewModel>(book);
+            bookModel.Gallery = book.BookGallery.Select(bg => _mapper.Map<GalleryViewModel>(bg)).ToList();
+            return View(bookModel);
         }
 
         [HttpGet("Books/AddBook")]
@@ -68,29 +72,44 @@ namespace BookStore.WebApp.Controllers
             {
                 return View(newBook);
             }
-            string folder = "images/book/cover/";
-            string path = folder + Guid.NewGuid().ToString() + "_" + newBook.CoverPhoto.FileName;
-            string serverFolder = Path.Combine(_env.WebRootPath, path);
-            await newBook.CoverPhoto.CopyToAsync(new FileStream(serverFolder, FileMode.Create));
-            newBook.CoverPhotoPath = "/" + path;
-            Book book = _mapper.Map<Book>(newBook);
-            try
-            {
-                IEnumerable<Category> categories = await _categoryRepository.GetCategoriesById(newBook.CategoryIds);
-                book.Category = new List<Category>();
-                foreach(Category category in categories)
-                {
-                    book.Category.Add(category);
-                }
-                book.CreatedAt = book.UpdatedAt = DateTime.Now;
-                int bookId = await _bookRepository.AddBook(book);
-                return RedirectToAction(nameof(AddBook), new {status=AddBookStatus.Success, bookId=bookId});
-            }
-            catch
+            if(await _bookRepository.CheckBookName(newBook.Title))
             {
                 ViewBag.status = AddBookStatus.Fail;
                 return View(newBook);
             }
+
+            Book book = _mapper.Map<Book>(newBook);
+            // Upload Cover Photo
+            book.CoverPhotoPath = await UploadImage("books/images/cover/", newBook.CoverPhoto);
+            // Upload Pdf
+            book.PdfPath = await UploadImage("books/pdf/", newBook.Pdf);
+            // Upload gallery Photos
+            book.BookGallery = new List<Gallery>();
+            foreach(var file in newBook.GalleryFiles)
+            {
+                book.BookGallery.Add(new Gallery(){
+                    Name=file.FileName,
+                    Path=await UploadImage("books/images/gallery/", file)
+                });
+            }
+            IEnumerable<Category> categories = await _categoryRepository.GetCategoriesById(newBook.CategoryIds);
+            book.Category = new List<Category>();
+            foreach(Category category in categories)
+            {
+                book.Category.Add(category);
+            }
+            book.CreatedAt = book.UpdatedAt = DateTime.UtcNow;
+            int bookId = await _bookRepository.AddBook(book);
+            return RedirectToAction(nameof(AddBook), new {status=AddBookStatus.Success, bookId=bookId});
+        }
+
+        private async Task<string> UploadImage(string folder, IFormFile file)
+        {
+            string path = folder + Guid.NewGuid().ToString() + "_" + file.FileName;
+            string serverFolder = Path.Combine(_env.WebRootPath, path);
+            await file.CopyToAsync(new FileStream(serverFolder, FileMode.Create));
+            
+            return "/" + path;
         }
     }
 }
