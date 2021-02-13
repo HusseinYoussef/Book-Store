@@ -13,6 +13,7 @@ namespace BookStore.WebApp.Data
         public DbSet<Book> Books { get; set; }
         public DbSet<Language> Languages { get; set; }
         public DbSet<Category> Categories { get; set; }
+        public DbSet<Gallery> BooksGalleries { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -25,9 +26,16 @@ namespace BookStore.WebApp.Data
                         .WithOne(b => b.Language)
                         .OnDelete(DeleteBehavior.SetNull);
 
+            // Book - Category == Many to Many
             modelBuilder.Entity<Book>()
                         .HasMany(b => b.Category)
                         .WithMany(c => c.Book);
+
+            // Book - Gallery == one to many
+            modelBuilder.Entity<Book>()
+                        .HasMany(b => b.BookGallery)
+                        .WithOne(p => p.Book)
+                        .OnDelete(DeleteBehavior.SetNull);
 
             modelBuilder.seed();
         }
