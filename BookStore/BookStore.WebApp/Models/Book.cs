@@ -30,9 +30,13 @@ namespace BookStore.WebApp.Models
 
         public string CoverPhotoPath { get; set; }
 
+        public string PdfPath { get; set; }
+
         // Navigation Properties
         public Language Language { get; set; }
         
         public ICollection<Category> Category { get; set; }
+
+        public ICollection<Gallery> BookGallery { get; set; }
     }
 }
