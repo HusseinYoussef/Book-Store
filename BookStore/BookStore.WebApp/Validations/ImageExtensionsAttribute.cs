@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.IO;
@@ -13,22 +14,44 @@ namespace BookStore.WebApp.Validations
 
         public ImageExtensionsAttribute()
         {
-            _extensions = new string[] {".jpg", ".png"};
+            _extensions = new string[] {".jpg", ".png", ".jpeg"};
         }
 
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
-            var file = value as IFormFile;
-            if(file != null)
+            if(value is ICollection)
             {
-                var extension = Path.GetExtension(file.FileName);
-                if(_extensions.Contains(extension.ToLower()))
+                var files = value as ICollection;
+                foreach(IFormFile file in files)
                 {
-                    return ValidationResult.Success;
+                    if(!validExtension(Path.GetExtension(file.FileName)))
+                    {
+                        return new ValidationResult(GetErrorMessage());
+                    }
                 }
             }
+            else
+            {
+                var file = value as IFormFile;
+                if(file != null)
+                {
+                    if(!validExtension(Path.GetExtension(file.FileName)))
+                    {
+                        return new ValidationResult(GetErrorMessage());
+                    }
+                }
+            }
+            return ValidationResult.Success;
+        }
 
-            return new ValidationResult("Image Extension should be jpg or png");
+        private bool validExtension(string extension)
+        {
+            return _extensions.Contains(extension.ToLower());
+        }
+
+        private string GetErrorMessage()
+        {
+            return ErrorMessage ?? "Images Extension should be jpg or png";
         }
     }
 }
