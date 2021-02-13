@@ -19,9 +19,9 @@ namespace BookStore.WebApp.Components
             _mapper = mapper;
         }
 
-        public async Task<IViewComponentResult> InvokeAsync()
+        public async Task<IViewComponentResult> InvokeAsync(int count)
         {
-            var books = await _bookRepository.GetTopBooks(count:3);
+            var books = await _bookRepository.GetTopBooks(count);
             return View(_mapper.Map<IEnumerable<BookViewModel>>(books));
         }
     }

@@ -14,7 +14,7 @@
     <div class="container">
         <h3 class="h3">Top books</h3>
         <div class="row">
-            @await Component.InvokeAsync("TopBooks")
+            @await Component.InvokeAsync("TopBooks", new {count=3})
         </div>
     </div>
 </div> 
