@@ -69,9 +69,24 @@
         </div>
 
         <div class="form-group">
+            <label asp-for="Pdf"></label>
+            <input asp-for="Pdf" class="form-control-file">
+            <span class="text-danger" asp-validation-for="Pdf"></span>
+        </div>
+
+        <div class="form-group">
             <label asp-for="CoverPhoto"></label>
             <input asp-for="CoverPhoto" class="form-control-file">
             <span class="text-danger" asp-validation-for="CoverPhoto"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="GalleryFiles" class="control-label"></label>
+            <div class="custom-file">
+                <input asp-for="GalleryFiles" class="custom-file-input">
+                <label class="custom-file-label" asp-for="GalleryFiles">Choose Gallery files</label>
+            </div>
+            <span class="text-danger" asp-validation-for="GalleryFiles"></span>
         </div>
 
         <div>
@@ -79,3 +94,20 @@
         </div>
     </form>
 </div>
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $('.custom-file-input').on("change", function () {
+                var fileLabel = $(this).next('.custom-file-label');
+                var files = $(this)[0].files;
+                if (files.length > 1) {
+                    fileLabel.html(files.length + ' files selected');
+                }
+                else if (files.length == 1) {
+                    fileLabel.html(files[0].name);
+                }
+            });
+        });
+    </script>
+}
