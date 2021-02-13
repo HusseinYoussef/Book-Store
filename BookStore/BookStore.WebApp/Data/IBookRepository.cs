@@ -8,6 +8,7 @@ namespace BookStore.WebApp.Data
     public interface IBookRepository
     {
         Task<IEnumerable<Book>> GetAllBooks();
+        Task<IEnumerable<Book>> GetTopBooks(int count);
         Task<Book> GetBookById(int id);
         Task<bool> CheckBookName(string name);
         Task<int> AddBook(Book newBook);
