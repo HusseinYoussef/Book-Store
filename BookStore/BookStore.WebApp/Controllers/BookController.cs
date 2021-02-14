@@ -56,8 +56,6 @@ namespace BookStore.WebApp.Controllers
         [HttpGet("Books/AddBook")]
         public async Task<ViewResult> AddBook(AddBookStatus status=AddBookStatus.Default, int bookId=0)
         {
-            ViewBag.Languages = _mapper.Map<List<LanguageViewModel>>(await _languageRepository.GetAllLanguages());
-            ViewBag.Categories = _mapper.Map<List<CategoryViewModel>>(await _categoryRepository.GetAllCategories());
             ViewBag.bookId = bookId;
             ViewBag.status = status;
             return View();
@@ -66,8 +64,6 @@ namespace BookStore.WebApp.Controllers
         [HttpPost("Books/AddBook")]
         public async Task<IActionResult> AddBook(BookViewModel newBook)
         {
-            ViewBag.Languages = _mapper.Map<List<LanguageViewModel>>(await _languageRepository.GetAllLanguages());
-            ViewBag.Categories = _mapper.Map<List<CategoryViewModel>>(await _categoryRepository.GetAllCategories());
             if(!ModelState.IsValid)
             {
                 return View(newBook);
