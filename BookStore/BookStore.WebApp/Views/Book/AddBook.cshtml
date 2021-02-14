@@ -1,9 +1,9 @@
 @using BookStore.WebApp.Enums
+@inject BookStore.WebApp.Data.ILanguageRepository _languageRepository
+@inject BookStore.WebApp.Data.ICategoryRepository _categoryRepository
 @model BookViewModel
 @{
     ViewBag.Title = "Add New Book";
-    var LanguageList = new SelectList(ViewBag.Languages, "Id", "Name");
-    var CategoryList = new SelectList(ViewBag.Categories, "Id", "Name");
 }
 
 <div class="container">
@@ -50,13 +50,15 @@
 
         <div class="form-group">
             <label asp-for="CategoryIds"></label>
-            <select class="form-control" asp-for="CategoryIds" asp-items="CategoryList"></select>
+            <select class="form-control" asp-for="CategoryIds"
+                asp-items=@((await _categoryRepository.GetAllCategories()).Select(c => new SelectListItem(){Text=c.Name, Value=c.Id.ToString()}))></select>
             <span class="text-danger" asp-validation-for="CategoryIds"></span>
         </div>
 
         <div class="form-group">
             <label asp-for="LanguageId"></label>
-            <select class="form-control" asp-for="LanguageId" asp-items="LanguageList">
+            <select class="form-control" asp-for="LanguageId"
+                asp-items=@((await _languageRepository.GetAllLanguages()).Select(l => new SelectListItem(){Text=l.Name, Value=l.Id.ToString()}))>
                 <option value="">Please Select</option>
             </select>
             <span class="text-danger" asp-validation-for="LanguageId"></span>
