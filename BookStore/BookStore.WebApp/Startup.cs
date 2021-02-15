@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
+using BookStore.WebApp.Models;
 
 namespace BookStore.WebApp
 {
@@ -31,11 +32,12 @@ namespace BookStore.WebApp
         {
             services.AddDbContext<BookStoreDbContext>(options => 
                     options.UseNpgsql(_config.GetConnectionString("BookStoreDb")));
-            services.AddIdentity<IdentityUser, IdentityRole>()
+            services.AddIdentity<User, IdentityRole>()
                     .AddEntityFrameworkStores<BookStoreDbContext>();
             services.AddScoped<IBookRepository, SqlBookRepository>();
             services.AddScoped<ILanguageRepository, SqlLanguageRepository>();
             services.AddScoped<ICategoryRepository, SqlCategoryRepository>();
+            services.AddScoped<IUserRepository, SqlUserRepository>();
             services.AddControllersWithViews().AddNewtonsoftJson(options =>
                     options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
             services.AddAutoMapper(typeof(Startup).Assembly);
