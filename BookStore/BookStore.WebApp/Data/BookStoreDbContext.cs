@@ -39,6 +39,8 @@ namespace BookStore.WebApp.Data
                         .OnDelete(DeleteBehavior.SetNull);
 
             modelBuilder.seed();
+
+            base.OnModelCreating(modelBuilder);
         }
     }
 }
