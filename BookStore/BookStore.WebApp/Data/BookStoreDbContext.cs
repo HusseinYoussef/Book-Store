@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BookStore.WebApp.Data
 {
-    public class BookStoreDbContext : IdentityDbContext
+    public class BookStoreDbContext : IdentityDbContext<User>
     {
         public BookStoreDbContext(DbContextOptions<BookStoreDbContext> options) : base(options)
         {}
