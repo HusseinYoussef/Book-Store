@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 
 namespace BookStore.WebApp
 {
@@ -30,6 +31,8 @@ namespace BookStore.WebApp
         {
             services.AddDbContext<BookStoreDbContext>(options => 
                     options.UseNpgsql(_config.GetConnectionString("BookStoreDb")));
+            services.AddIdentity<IdentityUser, IdentityRole>()
+                    .AddEntityFrameworkStores<BookStoreDbContext>();
             services.AddScoped<IBookRepository, SqlBookRepository>();
             services.AddScoped<ILanguageRepository, SqlLanguageRepository>();
             services.AddScoped<ICategoryRepository, SqlCategoryRepository>();
@@ -53,6 +56,8 @@ namespace BookStore.WebApp
             app.UseStaticFiles();
             
             app.UseRouting();
+
+            app.UseAuthentication();
 
             app.UseEndpoints(endpoints => 
             {

@@ -1,11 +1,12 @@
 using System;
 using System.Collections.Generic;
 using BookStore.WebApp.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace BookStore.WebApp.Data
 {
-    public class BookStoreDbContext : DbContext
+    public class BookStoreDbContext : IdentityDbContext
     {
         public BookStoreDbContext(DbContextOptions<BookStoreDbContext> options) : base(options)
         {}
