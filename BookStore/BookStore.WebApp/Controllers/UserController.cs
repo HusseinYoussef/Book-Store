@@ -14,7 +14,29 @@ namespace BookStore.WebApp.Controllers
         {
             _userRepository = userRepository;
         }
-        
+
+        [HttpGet("login")]
+        public ViewResult Login()
+        {
+            return View();
+        }
+
+        [HttpPost("login")]
+        public async Task<IActionResult> Login(LoginUserViewModel user)
+        {
+            if(!ModelState.IsValid)
+            {
+                return View(user);
+            }
+            var result = await _userRepository.SignInUser(user);
+            if(!result.Succeeded)
+            {
+                ModelState.AddModelError("", "Email or Password is invalid");
+                return View(user);
+            }
+            return RedirectToAction("Index", "Home");
+        }
+
         [HttpGet("signup")]
         public ViewResult Signup()
         {
@@ -22,7 +44,7 @@ namespace BookStore.WebApp.Controllers
         }
 
         [HttpPost("signup")]
-        public async Task<IActionResult> Signup(UserViewModel newUser)
+        public async Task<IActionResult> Signup(CreateUserViewModel newUser)
         {
             if(!ModelState.IsValid)
             {
@@ -40,6 +62,13 @@ namespace BookStore.WebApp.Controllers
             }
             ModelState.Clear();
             return RedirectToAction(nameof(Signup));
+        }
+
+        [Route("logout")]
+        public async Task<IActionResult> Logout()
+        {
+            await _userRepository.SignOut();
+            return RedirectToAction("Index", "Home");
         }
     }
 }
