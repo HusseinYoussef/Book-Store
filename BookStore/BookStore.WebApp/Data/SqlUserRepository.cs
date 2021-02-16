@@ -22,7 +22,6 @@ namespace BookStore.WebApp.Data
         {
             var user = _mapper.Map<User>(newUser);
             user.UserName = newUser.Email;
-            user.Email = newUser.Email;
 
             var result = await _userManager.CreateAsync(user, newUser.Password);
             return result;
