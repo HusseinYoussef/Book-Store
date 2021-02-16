@@ -9,7 +9,7 @@ namespace BookStore.WebApp.Profiles
     {
         public UserProfile()
         {
-            CreateMap<UserViewModel, User>();
+            CreateMap<CreateUserViewModel, User>();
         }
     }
 }

@@ -7,6 +7,8 @@ namespace BookStore.WebApp.Data
 {
     public interface IUserRepository
     {
-        Task<IdentityResult> CreateUser(UserViewModel newUser);
+        Task<IdentityResult> CreateUser(CreateUserViewModel newUser);
+        Task<SignInResult> SignInUser(LoginUserViewModel user);
+        Task SignOut();
     }
 }
