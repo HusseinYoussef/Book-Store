@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace BookStore.WebApp.ViewModels
 {
-    public class UserViewModel
+    public class CreateUserViewModel
     {
         [Required]
         [Display(Name="First Name")]
