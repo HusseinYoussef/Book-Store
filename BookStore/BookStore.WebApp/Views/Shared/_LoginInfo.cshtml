@@ -5,7 +5,7 @@
 {
     <li class="nav-item dropdown navbar-nav">
         <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
-            Hello @User.Identity.Name
+            Hello @(User.FindFirst("FirstName").Value + " " + User.FindFirst("LastName").Value)
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
             <a class="dropdown-item" asp-controller="User" asp-action="ChangePassword">Change password</a>
@@ -18,7 +18,7 @@ else
     <div class="collapse navbar-collapse justify-content-end" id="navbarCollapse">
         <ul class="navbar-nav">
             <li class="nav-item">
-                <a class="nav-link" asp-controller="User" asp-action="Login">Login</a>
+                <a class="nav-link" asp-controller="User" asp-action="Login" asp-route-returnUrl=@Context.Request.Path>Login</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" asp-controller="User" asp-action="Signup">Register</a>
