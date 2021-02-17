@@ -12,6 +12,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using BookStore.WebApp.Models;
+using BookStore.WebApp.Claims;
 
 namespace BookStore.WebApp
 {
@@ -41,6 +42,8 @@ namespace BookStore.WebApp
             services.AddControllersWithViews().AddNewtonsoftJson(options =>
                     options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
             services.AddAutoMapper(typeof(Startup).Assembly);
+            services.ConfigureApplicationCookie(config => config.LoginPath="/login");
+            services.AddScoped<IUserClaimsPrincipalFactory<User>, AppUserClaimsPrincipalFactory>();
             if(_env.IsDevelopment())
             {
                 services.AddRazorPages().AddRazorRuntimeCompilation();
@@ -60,6 +63,8 @@ namespace BookStore.WebApp
             app.UseRouting();
 
             app.UseAuthentication();
+
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints => 
             {
