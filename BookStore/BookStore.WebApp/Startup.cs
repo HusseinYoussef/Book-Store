@@ -13,6 +13,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using BookStore.WebApp.Models;
 using BookStore.WebApp.Claims;
+using BookStore.WebApp.Services;
 
 namespace BookStore.WebApp
 {
@@ -39,6 +40,7 @@ namespace BookStore.WebApp
             services.AddScoped<ILanguageRepository, SqlLanguageRepository>();
             services.AddScoped<ICategoryRepository, SqlCategoryRepository>();
             services.AddScoped<IUserRepository, SqlUserRepository>();
+            services.AddScoped<IUserService, UserService>();
             services.AddControllersWithViews().AddNewtonsoftJson(options =>
                     options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
             services.AddAutoMapper(typeof(Startup).Assembly);
