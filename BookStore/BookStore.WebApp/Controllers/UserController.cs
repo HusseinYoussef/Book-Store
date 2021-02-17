@@ -1,6 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using BookStore.WebApp.Data;
+using BookStore.WebApp.Enums;
 using BookStore.WebApp.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
@@ -22,7 +23,7 @@ namespace BookStore.WebApp.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> Login(LoginUserViewModel user)
+        public async Task<IActionResult> Login(LoginUserViewModel user, string returnUrl)
         {
             if(!ModelState.IsValid)
             {
@@ -33,6 +34,10 @@ namespace BookStore.WebApp.Controllers
             {
                 ModelState.AddModelError("", "Email or Password is invalid");
                 return View(user);
+            }
+            if(!string.IsNullOrEmpty(returnUrl))
+            {
+                return LocalRedirect(returnUrl);
             }
             return RedirectToAction("Index", "Home");
         }
@@ -61,7 +66,12 @@ namespace BookStore.WebApp.Controllers
                 return View(newUser);
             }
             ModelState.Clear();
-            return RedirectToAction(nameof(Signup));
+            
+            await _userRepository.SignInUser(new LoginUserViewModel(){
+                Email=newUser.Email,
+                Password=newUser.Password
+            });
+            return RedirectToAction("Index", "Home", new {userStatus=UserStatus.NewUser});
         }
 
         [Route("logout")]

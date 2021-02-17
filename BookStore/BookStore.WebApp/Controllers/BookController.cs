@@ -11,6 +11,7 @@ using System.IO;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using System.Linq;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BookStore.WebApp.Controllers
 {
@@ -53,6 +54,7 @@ namespace BookStore.WebApp.Controllers
             return View(bookModel);
         }
 
+        [Authorize]
         [HttpGet("Books/AddBook")]
         public async Task<ViewResult> AddBook(AddBookStatus status=AddBookStatus.Default, int bookId=0)
         {
