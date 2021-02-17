@@ -10,5 +10,7 @@ namespace BookStore.WebApp.Data
         Task<IdentityResult> CreateUser(CreateUserViewModel newUser);
         Task<SignInResult> SignInUser(LoginUserViewModel user);
         Task SignOut();
+
+        Task<IdentityResult> ChangePassword(ChangePasswordViewModel model);
     }
 }

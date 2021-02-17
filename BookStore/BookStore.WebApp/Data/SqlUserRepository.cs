@@ -2,6 +2,7 @@ using System;
 using System.Threading.Tasks;
 using AutoMapper;
 using BookStore.WebApp.Models;
+using BookStore.WebApp.Services;
 using BookStore.WebApp.ViewModels;
 using Microsoft.AspNetCore.Identity;
 
@@ -11,14 +12,23 @@ namespace BookStore.WebApp.Data
     {
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
+        private readonly IUserService _userService;
         private readonly IMapper _mapper;
 
         public SqlUserRepository(UserManager<User> userManager, SignInManager<User> signInManager,
-                                IMapper mapper)
+                                IUserService userService, IMapper mapper)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _userService = userService;
             _mapper = mapper;
+        }
+
+        public async Task<IdentityResult> ChangePassword(ChangePasswordViewModel model)
+        {
+            var user = await _userManager.FindByIdAsync(_userService.GetUserId());
+            var result = await _userManager.ChangePasswordAsync(user, model.CurrentPassword, model.NewPassword);
+            return result;
         }
 
         public async Task<IdentityResult> CreateUser(CreateUserViewModel newUser)
