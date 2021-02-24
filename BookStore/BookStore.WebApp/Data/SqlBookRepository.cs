@@ -51,5 +51,12 @@ namespace BookStore.WebApp.Data
             IEnumerable<Book> books = await _context.Books.OrderBy(b => b.Id).Take(count).ToListAsync();
             return books;
         }
+
+        public async Task<IEnumerable<Book>> Search(string bookName)
+        {
+            IEnumerable<Book> books = await _context.Books.Where(b => b.Title.ToLower().Contains(bookName.ToLower()))
+                                                        .ToListAsync();
+            return books;
+        }
     }
 }
