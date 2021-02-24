@@ -56,7 +56,7 @@ namespace BookStore.WebApp.Controllers
 
         [Authorize]
         [HttpGet("Books/AddBook")]
-        public async Task<ViewResult> AddBook(AddBookStatus status=AddBookStatus.Default, int bookId=0)
+        public ViewResult AddBook(AddBookStatus status=AddBookStatus.Default, int bookId=0)
         {
             ViewBag.bookId = bookId;
             ViewBag.status = status;
@@ -108,6 +108,25 @@ namespace BookStore.WebApp.Controllers
             await file.CopyToAsync(new FileStream(serverFolder, FileMode.Create));
             
             return "/" + path;
+        }
+
+        [HttpGet("results")]
+        public async Task<IActionResult> SearchResults([FromQuery] string searchQuery)
+        {
+            IEnumerable<Book> books = await _bookRepository.Search(searchQuery);
+            return View(_mapper.Map<IEnumerable<BookViewModel>>(books));
+        }
+
+        [HttpPost("results")]
+        public IActionResult Search(string searchQuery)
+        {
+            if(string.IsNullOrEmpty(searchQuery))
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            var parametersToAdd = new Dictionary<string, string> { { "searchQuery", searchQuery } };
+            var newUri = Microsoft.AspNetCore.WebUtilities.QueryHelpers.AddQueryString("", parametersToAdd);
+            return Redirect(newUri);
         }
     }
 }
