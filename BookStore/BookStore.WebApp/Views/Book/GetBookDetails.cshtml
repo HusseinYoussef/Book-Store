@@ -75,29 +75,11 @@
     </div>
 
     <hr />
-
     <div class="py-5 bg-light">
-        <h3 class="h3">Similar books</h3>
+        <h3 class="h3">Similar Books</h3>
         <div class="row">
-            @for (int i = 0; i < 5; i++)
-            {
-                <div class="col-md-4">
-                    <div class="card mb-4 shadow-sm">
-                        <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
-                        <div class="card-body">
-                            <h3 class="card-title">book.Title</h3>
-                            <p class="card-text">book.Description</p>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div class="btn-group">
-                                    <a href="#" class="btn btn-sm btn-outline-secondary">View details</a>
-                                </div>
-                                <small class="text-muted">book.Author</small>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            }
-
+            @await Component.InvokeAsync("SimilarBooks", 
+                                    new {bookId=Model.Id, categories=Model.CategoryNames, count=5})
         </div>
     </div>
 </div>
