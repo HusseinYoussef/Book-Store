@@ -25,3 +25,10 @@ body {
     height: 40vw;
     object-fit: cover;
 }
+
+.grow {
+    transition: all .2s ease-in-out;
+}
+.grow:hover{
+    transform: scale(1.1);
+}
