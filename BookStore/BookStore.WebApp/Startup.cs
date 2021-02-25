@@ -32,7 +32,7 @@ namespace BookStore.WebApp
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<BookStoreDbContext>(options => 
+            services.AddDbContextPool<BookStoreDbContext>(options => 
                     options.UseNpgsql(_config.GetConnectionString("BookStoreDb")));
             services.AddIdentity<User, IdentityRole>()
                     .AddEntityFrameworkStores<BookStoreDbContext>();
