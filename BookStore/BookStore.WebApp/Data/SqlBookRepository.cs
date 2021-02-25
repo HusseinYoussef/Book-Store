@@ -51,6 +51,16 @@ namespace BookStore.WebApp.Data
             return book;
         }
 
+        public async Task<IEnumerable<Book>> GetSimilarBooks(int bookId, IEnumerable<string> categories, int count)
+        {
+            IEnumerable<Book> books = await _context.Books.AsNoTracking()
+                                                    .Where(b => (b.Id != bookId) && (b.Category.Select(c => c.Name).Any(i => categories.Contains(i))))
+                                                    .OrderBy(b => b.Id)
+                                                    .Take(count)
+                                                    .ToListAsync();
+            return books;
+        }
+
         public async Task<IEnumerable<Book>> GetTopBooks(int count=3)
         {
             IEnumerable<Book> books = await _context.Books.AsNoTracking()
