@@ -110,23 +110,16 @@ namespace BookStore.WebApp.Controllers
             return "/" + path;
         }
 
-        [HttpGet("results")]
-        public async Task<IActionResult> SearchResults([FromQuery] string searchQuery)
-        {
-            IEnumerable<Book> books = await _bookRepository.Search(searchQuery);
-            return View(_mapper.Map<IEnumerable<BookViewModel>>(books));
-        }
-
-        [HttpPost("results")]
-        public IActionResult Search(string searchQuery)
+        [HttpGet("search")]
+        public async Task<IActionResult> Search([FromQuery] string searchQuery)
         {
             if(string.IsNullOrEmpty(searchQuery))
             {
                 return RedirectToAction("Index", "Home");
             }
-            var parametersToAdd = new Dictionary<string, string> { { "searchQuery", searchQuery } };
-            var newUri = Microsoft.AspNetCore.WebUtilities.QueryHelpers.AddQueryString("", parametersToAdd);
-            return Redirect(newUri);
+
+            IEnumerable<Book> books = await _bookRepository.Search(searchQuery);
+            return View("SearchResults", _mapper.Map<IEnumerable<BookViewModel>>(books));
         }
     }
 }
