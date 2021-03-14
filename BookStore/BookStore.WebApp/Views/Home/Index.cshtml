@@ -22,7 +22,7 @@
     <div class="container">
         <h1>Welcome to Book Store</h1>
         <p class="lead text-muted">You can find many books here</p>
-        <form class="form-inline justify-content-center" method="POST" asp-controller="Book" asp-action="Search" asp-route-searchQuery=>
+        <form class="form-inline justify-content-center" method="GET" asp-controller="Book" asp-action="Search">
             <div class="row">
                 <div class="input-group">
                     <input type="text" name="searchQuery" class="form-control" style="width: 300px;" placeholder="Name of the Book"/> 
