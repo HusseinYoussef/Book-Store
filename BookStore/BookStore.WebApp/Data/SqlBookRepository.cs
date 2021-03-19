@@ -32,7 +32,9 @@ namespace BookStore.WebApp.Data
 
         public async Task<IEnumerable<Book>> GetAllBooks()
         {
-            IEnumerable<Book> books = await _context.Books.AsNoTracking().ToListAsync();
+            IEnumerable<Book> books = await _context.Books.AsNoTracking()
+                                                    .Select(b => new Book() {Id=b.Id, Title=b.Title, Description=b.Description, Author=b.Author, CoverPhotoPath=b.CoverPhotoPath})
+                                                    .ToListAsync();
             return books;
         }
 
@@ -57,6 +59,7 @@ namespace BookStore.WebApp.Data
                                                     .Where(b => (b.Id != bookId) && (b.Category.Select(c => c.Name).Any(i => categories.Contains(i))))
                                                     .OrderBy(b => b.Id)
                                                     .Take(count)
+                                                    .Select(b => new Book() {Id=b.Id, Title=b.Title, Description=b.Description, Author=b.Author, CoverPhotoPath=b.CoverPhotoPath})
                                                     .ToListAsync();
             return books;
         }
@@ -64,14 +67,26 @@ namespace BookStore.WebApp.Data
         public async Task<IEnumerable<Book>> GetTopBooks(int count=3)
         {
             IEnumerable<Book> books = await _context.Books.AsNoTracking()
-                                                    .OrderBy(b => b.Id).Take(count).ToListAsync();
+                                                    .OrderBy(b => b.Id).Take(count)
+                                                    .Select(b => new Book() {Id=b.Id, Title=b.Title, Description=b.Description, Author=b.Author, CoverPhotoPath=b.CoverPhotoPath})
+                                                    .ToListAsync();
             return books;
         }
 
-        public async Task<IEnumerable<Book>> Search(string bookName)
+        public async Task<IEnumerable<Book>> SearchByTitle(string bookTitle)
         {
             IEnumerable<Book> books = await _context.Books.AsNoTracking()
-                                                    .Where(b => b.Title.ToLower().Contains(bookName.ToLower()))
+                                                    .Where(b => b.Title.ToLower().Contains(bookTitle.ToLower()))
+                                                    .Select(b => new Book() {Id=b.Id, Title=b.Title, Description=b.Description, Author=b.Author, CoverPhotoPath=b.CoverPhotoPath})
+                                                    .ToListAsync();
+            return books;
+        }
+
+        public async Task<IEnumerable<Book>> SearchByCategory(string bookCategory)
+        {
+            IEnumerable<Book> books = await _context.Books.AsNoTracking()
+                                                    .Where(b => b.Category.Select(c => c.Name.ToLower()).Contains(bookCategory.ToLower()))
+                                                    .Select(b => new Book(){Id=b.Id, Title=b.Title, Description=b.Description, Author=b.Author, CoverPhotoPath=b.CoverPhotoPath})
                                                     .ToListAsync();
             return books;
         }

@@ -111,14 +111,24 @@ namespace BookStore.WebApp.Controllers
         }
 
         [HttpGet("search")]
-        public async Task<IActionResult> Search([FromQuery] string searchQuery)
+        public async Task<IActionResult> Search([FromQuery] string by, [FromQuery] string searchQuery)
         {
             if(string.IsNullOrEmpty(searchQuery))
             {
                 return RedirectToAction("Index", "Home");
             }
 
-            IEnumerable<Book> books = await _bookRepository.Search(searchQuery);
+            ViewBag.by = by;
+            ViewBag.searchQuery = searchQuery;
+            IEnumerable<Book> books = null;
+            if(by == "title")
+            {
+                books = await _bookRepository.SearchByTitle(searchQuery);
+            }
+            else if (by == "category")
+            {
+                books = await _bookRepository.SearchByCategory(searchQuery);
+            }
             return View("SearchResults", _mapper.Map<IEnumerable<BookViewModel>>(books));
         }
     }
