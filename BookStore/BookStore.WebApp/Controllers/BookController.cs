@@ -129,6 +129,11 @@ namespace BookStore.WebApp.Controllers
             {
                 books = await _bookRepository.SearchByCategory(searchQuery);
             }
+            else if(by == "author")
+            {
+                books = await _bookRepository.SearchByAuthor(searchQuery);
+            }
+
             return View("SearchResults", _mapper.Map<IEnumerable<BookViewModel>>(books));
         }
     }
