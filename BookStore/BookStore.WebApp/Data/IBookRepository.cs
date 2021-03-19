@@ -15,5 +15,6 @@ namespace BookStore.WebApp.Data
         Task<int> AddBook(Book newBook);
         Task<IEnumerable<Book>> SearchByTitle(string bookTitle);
         Task<IEnumerable<Book>> SearchByCategory(string bookCategory);
+        Task<IEnumerable<Book>> SearchByAuthor(string bookAuthor);
     }
 }

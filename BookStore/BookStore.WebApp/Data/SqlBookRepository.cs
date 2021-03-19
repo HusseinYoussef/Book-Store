@@ -90,5 +90,14 @@ namespace BookStore.WebApp.Data
                                                     .ToListAsync();
             return books;
         }
+
+        public async Task<IEnumerable<Book>> SearchByAuthor(string bookAuthor)
+        {
+            IEnumerable<Book> books = await _context.Books.AsNoTracking()
+                                                    .Where(b => b.Author.ToLower() == bookAuthor.ToLower())
+                                                    .Select(b => new Book(){Id=b.Id, Title=b.Title, Description=b.Description, Author=b.Author, CoverPhotoPath=b.CoverPhotoPath})
+                                                    .ToListAsync();
+            return books;
+        }
     }
 }
