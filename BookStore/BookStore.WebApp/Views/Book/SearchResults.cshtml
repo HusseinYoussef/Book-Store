@@ -3,27 +3,33 @@
     ViewBag.Title = "Search Results";
 }
 
-<div class="container">
-    <h3 class="display-4">Results</h3>
-    <div class="row" style="margin-top: 65px;">
-        @foreach (var book in Model)
-        {
-            <div class="col-md-4 d-flex">
-                <div class="card mb-4 shadow-sm">
-                    <img src="@book.CoverPhotoPath" class="grow img-thumbnail card-img-top" alt="Book Cover">
-                    <div class="card-body">
-                        <h3 class="card-title">@book.Title</h3>
-                        <p class="card-text">@book.Description</p>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div class="btn-group">
-                                <a asp-controller="Book" asp-action="GetBookDetails" asp-route-id="@book.Id" 
-                                    class="btn btn-sm btn-outline-secondary">View details</a>
-                            </div>
-                            <small class="text-muted">@book.Author</small>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        }
+@if(Model.Count() > 0)
+{
+    <div class="container">
+        <h3 class="display-4">Results</h3>
+        <div class="row" style="margin-top: 65px;">
+            <partial name="_BooksCards"/>
+        </div>
     </div>
-</div>
+}
+else
+{
+    <div class="container h-100">
+        <div class="row h-100 justify-content-center align-items-center">
+            <img src="~/images/no_results.jpg" alt="No Results Logo" style="height: 50%;width: 50%;">
+        </div>  
+        <div class="row h-100 justify-content-center align-items-center">
+            <h3 class="display-4">No Results</h3>
+        </div>
+        <div class="row h-100 justify-content-center align-items-center">
+            <p>
+                No books found with @ViewBag.by <i>@ViewBag.searchQuery</i>
+            </p>
+        </div>
+        <div class="row h-100 justify-content-center align-items-center">
+            <a class="btn btn-primary" style="margin-right: 15px;"
+               asp-controller="Home" asp-action="Index">Back to Home</a>
+            <a class="btn btn-secondary" asp-controller="Book" asp-action="ShowBooks">Explore Books</a>
+        </div>
+    </div>
+}
