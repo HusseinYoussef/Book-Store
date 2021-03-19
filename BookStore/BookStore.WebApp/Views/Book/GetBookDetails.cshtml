@@ -77,9 +77,6 @@
     <hr />
     <div class="py-5 bg-light">
         <h3 class="h3">Similar Books</h3>
-        <div class="row">
-            @await Component.InvokeAsync("SimilarBooks", 
-                                    new {bookId=Model.Id, categories=Model.CategoryNames, count=5})
-        </div>
+        @await Component.InvokeAsync("SimilarBooks", new {bookId=Model.Id, categories=Model.CategoryNames, count=5})
     </div>
 </div>

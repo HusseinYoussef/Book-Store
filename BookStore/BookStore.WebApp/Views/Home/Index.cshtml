@@ -25,6 +25,10 @@
         <form class="form-inline justify-content-center" method="GET" asp-controller="Book" asp-action="Search">
             <div class="row">
                 <div class="input-group">
+                    <select class="form-control" name="by" style="width: 118px; margin-right: 3px;">
+                        <option value="title" selected>Title</option>
+                        <option value="category">Category</option>
+                    </select>
                     <input type="text" name="searchQuery" class="form-control" style="width: 300px;" placeholder="Name of the Book"/> 
                     <input class="btn btn-primary" type="submit" value="Search" style="margin-left: 10px;"/>
                 </div>
@@ -36,8 +40,6 @@
 <div class="py-5 bg-light" style="margin-top: 150px;">
     <div class="container">
         <h3 class="h3">Top books</h3>
-        <div class="row">
-            @await Component.InvokeAsync("TopBooks", new {count=3})
-        </div>
+        @await Component.InvokeAsync("TopBooks", new {count=3})
     </div>
 </div> 
