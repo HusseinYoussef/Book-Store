@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using BookStore.WebApp.Models;
@@ -34,10 +35,26 @@ namespace BookStore.WebApp.Data
         public async Task<IdentityResult> CreateUser(CreateUserViewModel newUser)
         {
             var user = _mapper.Map<User>(newUser);
-            user.UserName = newUser.Email;
+            user.UserName = newUser.FirstName + newUser.LastName;
 
             var result = await _userManager.CreateAsync(user, newUser.Password);
             return result;
+        }
+
+        public async Task<IdentityResult> AssignUserRoles(string userEmail, IEnumerable<string> roles)
+        {
+            User user = await _userManager.FindByEmailAsync(userEmail);
+            var result = await _userManager.AddToRolesAsync(user, roles);
+
+            return result;
+        }
+
+        public async Task<IEnumerable<string>> GetUserRoles(string userId)
+        {
+            User user = await _userManager.FindByIdAsync(userId);
+            var roles = await _userManager.GetRolesAsync(user);
+
+            return roles;
         }
 
         public async Task<SignInResult> SignInUser(LoginUserViewModel user)

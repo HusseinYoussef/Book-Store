@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using BookStore.WebApp.Data;
 using BookStore.WebApp.Enums;
@@ -65,8 +66,9 @@ namespace BookStore.WebApp.Controllers
                 }
                 return View(newUser);
             }
+            result = await _userRepository.AssignUserRoles(newUser.Email, new List<string>() { "Normal User" });
             ModelState.Clear();
-            
+
             await _userRepository.SignInUser(new LoginUserViewModel(){
                 Email=newUser.Email,
                 Password=newUser.Password
