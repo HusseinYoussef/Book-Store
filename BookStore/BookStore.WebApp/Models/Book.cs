@@ -32,7 +32,11 @@ namespace BookStore.WebApp.Models
 
         public string PdfPath { get; set; }
 
+        public string UserId { get; set; }
+
         // Navigation Properties
+        public User User { get; set; }
+
         public Language Language { get; set; }
         
         public ICollection<Category> Category { get; set; }

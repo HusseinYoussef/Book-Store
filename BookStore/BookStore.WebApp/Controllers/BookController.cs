@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using System.Linq;
 using Microsoft.AspNetCore.Authorization;
+using BookStore.WebApp.Services;
 
 namespace BookStore.WebApp.Controllers
 {
@@ -22,13 +23,15 @@ namespace BookStore.WebApp.Controllers
         private readonly ICategoryRepository _categoryRepository;
         private readonly IMapper _mapper;
         private readonly IWebHostEnvironment _env;
+        private readonly IUserService _userService;
 
         public BookController(
                             IBookRepository bookRepository,
                             ILanguageRepository languageRepository,
                             ICategoryRepository categoryRepository,
                             IMapper mapper,
-                            IWebHostEnvironment env
+                            IWebHostEnvironment env,
+                            IUserService userService
                         )
         {
             _bookRepository = bookRepository;
@@ -36,6 +39,7 @@ namespace BookStore.WebApp.Controllers
             _categoryRepository = categoryRepository;
             _mapper = mapper;
             _env = env;
+            _userService = userService;
         }
 
         [Route("Books/AllBooks")]
@@ -63,6 +67,7 @@ namespace BookStore.WebApp.Controllers
             return View();
         }
 
+        [Authorize]
         [HttpPost("Books/AddBook")]
         public async Task<IActionResult> AddBook(BookViewModel newBook)
         {
@@ -78,16 +83,16 @@ namespace BookStore.WebApp.Controllers
 
             Book book = _mapper.Map<Book>(newBook);
             // Upload Cover Photo
-            book.CoverPhotoPath = await UploadImage("books/images/cover/", newBook.CoverPhoto);
+            book.CoverPhotoPath = await UploadFile("books/images/cover/", newBook.CoverPhoto);
             // Upload Pdf
-            book.PdfPath = await UploadImage("books/pdf/", newBook.Pdf);
+            book.PdfPath = await UploadFile("books/pdf/", newBook.Pdf);
             // Upload gallery Photos
             book.BookGallery = new List<Gallery>();
             foreach(var file in newBook.GalleryFiles)
             {
                 book.BookGallery.Add(new Gallery(){
                     Name=file.FileName,
-                    Path=await UploadImage("books/images/gallery/", file)
+                    Path=await UploadFile("books/images/gallery/", file)
                 });
             }
             IEnumerable<Category> categories = await _categoryRepository.GetCategoriesById(newBook.CategoryIds);
@@ -97,11 +102,12 @@ namespace BookStore.WebApp.Controllers
                 book.Category.Add(category);
             }
             book.CreatedAt = book.UpdatedAt = DateTime.UtcNow;
+            book.UserId = _userService.GetUserId();
             int bookId = await _bookRepository.AddBook(book);
             return RedirectToAction(nameof(AddBook), new {status=AddBookStatus.Success, bookId=bookId});
         }
 
-        private async Task<string> UploadImage(string folder, IFormFile file)
+        private async Task<string> UploadFile(string folder, IFormFile file)
         {
             string path = folder + Guid.NewGuid().ToString() + "_" + file.FileName;
             string serverFolder = Path.Combine(_env.WebRootPath, path);
@@ -111,7 +117,7 @@ namespace BookStore.WebApp.Controllers
         }
 
         [HttpGet("search")]
-        public async Task<IActionResult> Search([FromQuery] string by, [FromQuery] string searchQuery)
+        public async Task<IActionResult> Search([FromQuery] string by, [FromQuery(Name="search_query")] string searchQuery)
         {
             if(string.IsNullOrEmpty(searchQuery))
             {
