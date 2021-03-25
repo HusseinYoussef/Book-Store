@@ -1,13 +1,18 @@
 @using BookStore.WebApp.Models
 @inject Microsoft.AspNetCore.Identity.SignInManager<User> _signInManager
+@inject BookStore.WebApp.Services.IUserService _userService
+@inject BookStore.WebApp.Data.IUserRepository _userRepository
 
 @if(_signInManager.IsSignedIn(User))
 {
+    IEnumerable<string> roles = await _userRepository.GetUserRoles(_userService.GetUserId());
     <li class="nav-item dropdown navbar-nav">
         <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
-            Hello @(User.FindFirst("FirstName").Value + " " + User.FindFirst("LastName").Value)
+            Hello @((roles.Contains("Admin")? " (Admin) ":"") + User.FindFirst("FirstName").Value + " " + User.FindFirst("LastName").Value)
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" asp-controller="Book" asp-action="Library">My Library</a>
+            <a class="dropdown-item" href="#">Favorites</a>
             <a class="dropdown-item" asp-controller="User" asp-action="ChangePassword">Change password</a>
             <a class="dropdown-item" asp-controller="User" asp-action="Logout">Logout</a>
         </div>
