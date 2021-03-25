@@ -34,7 +34,7 @@ namespace BookStore.WebApp
         {
             services.AddDbContextPool<BookStoreDbContext>(options => 
                     options.UseNpgsql(_config.GetConnectionString("BookStoreDb")));
-            services.AddIdentity<User, IdentityRole>()
+            services.AddIdentity<User, IdentityRole>(options => options.User.RequireUniqueEmail = true)
                     .AddEntityFrameworkStores<BookStoreDbContext>();
             services.AddScoped<IBookRepository, SqlBookRepository>();
             services.AddScoped<ILanguageRepository, SqlLanguageRepository>();
