@@ -142,5 +142,12 @@ namespace BookStore.WebApp.Controllers
 
             return View("SearchResults", _mapper.Map<IEnumerable<BookViewModel>>(books));
         }
+
+        [HttpGet("Library")]
+        public async Task<ViewResult> Library()
+        {
+            IEnumerable<Book> books = await _bookRepository.GetLibrary(_userService.GetUserId());
+            return View(_mapper.Map<IEnumerable<BookViewModel>>(books));
+        }
     }
 }
