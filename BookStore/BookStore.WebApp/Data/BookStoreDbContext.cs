@@ -38,6 +38,11 @@ namespace BookStore.WebApp.Data
                         .WithOne(p => p.Book)
                         .OnDelete(DeleteBehavior.SetNull);
 
+            modelBuilder.Entity<Book>()
+                        .HasOne(b => b.User)
+                        .WithMany(u => u.Books)
+                        .OnDelete(DeleteBehavior.SetNull);
+
             modelBuilder.seed();
 
             base.OnModelCreating(modelBuilder);
