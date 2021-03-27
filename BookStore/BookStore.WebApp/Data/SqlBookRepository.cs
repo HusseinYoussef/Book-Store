@@ -108,5 +108,11 @@ namespace BookStore.WebApp.Data
                                                     .ToListAsync();
             return books;
         }
+
+        public async Task DeleteBook(Book book)
+        {
+            _context.Books.Remove(book);
+            await _context.SaveChangesAsync();
+        }
     }
 }

@@ -12,6 +12,7 @@ namespace BookStore.WebApp.Data
         Task<IEnumerable<Book>> GetSimilarBooks(int bookId, IEnumerable<string> categories, int count);
         Task<IEnumerable<Book>> GetLibrary(string userId);
         Task<Book> GetBookById(int id);
+        Task DeleteBook(Book book);
         Task<bool> CheckBookName(string name);
         Task<int> AddBook(Book newBook);
         Task<IEnumerable<Book>> SearchByTitle(string bookTitle);
