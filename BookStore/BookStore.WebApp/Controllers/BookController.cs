@@ -79,7 +79,7 @@ namespace BookStore.WebApp.Controllers
             }
             if (await _bookRepository.CheckBookName(newBook.Title))
             {
-                ViewBag.status = BookStatus.Fail;
+                ModelState.AddModelError("", "Book Title is already used");
                 return View(newBook);
             }
 
