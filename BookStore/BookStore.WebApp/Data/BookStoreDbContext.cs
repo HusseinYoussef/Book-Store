@@ -36,7 +36,7 @@ namespace BookStore.WebApp.Data
             modelBuilder.Entity<Book>()
                         .HasMany(b => b.BookGallery)
                         .WithOne(p => p.Book)
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Book>()
                         .HasOne(b => b.User)
