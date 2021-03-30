@@ -33,6 +33,7 @@ namespace BookStore.WebApp.Data
         public async Task<IEnumerable<Book>> GetAllBooks()
         {
             IEnumerable<Book> books = await _context.Books.AsNoTracking()
+                                                    .OrderBy(b => b.Id)
                                                     .Select(b => new Book() {Id=b.Id, Title=b.Title, Description=b.Description, Author=b.Author, CoverPhotoPath=b.CoverPhotoPath})
                                                     .ToListAsync();
             return books;
@@ -40,16 +41,10 @@ namespace BookStore.WebApp.Data
 
         public async Task<Book> GetBookById(int id)
         {
-            Book book = await _context.Books.FindAsync(id);
-            await _context.Entry(book)
-                          .Collection(b => b.Category)
-                          .LoadAsync();
-            await _context.Entry(book)
-                          .Collection(b => b.BookGallery)
-                          .LoadAsync();
-            await _context.Entry(book)
-                          .Reference(b => b.Language)
-                          .LoadAsync();
+            Book book = await _context.Books.Include(b => b.Language)
+                                            .Include(b => b.Category)
+                                            .Include(b => b.BookGallery)
+                                            .FirstOrDefaultAsync(b => b.Id == id);
             return book;
         }
 
@@ -57,8 +52,7 @@ namespace BookStore.WebApp.Data
         {
             IEnumerable<Book> books = await _context.Books.AsNoTracking()
                                                     .Where(b => (b.Id != bookId) && (b.Category.Select(c => c.Name).Any(i => categories.Contains(i))))
-                                                    .OrderBy(b => b.Id)
-                                                    .Take(count)
+                                                    .OrderBy(b => b.Id).Take(count)
                                                     .Select(b => new Book() {Id=b.Id, Title=b.Title, Description=b.Description, Author=b.Author, CoverPhotoPath=b.CoverPhotoPath})
                                                     .ToListAsync();
             return books;
