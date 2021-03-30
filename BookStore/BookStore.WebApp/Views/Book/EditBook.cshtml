@@ -1,36 +1,15 @@
-@using BookStore.WebApp.Enums
 @inject BookStore.WebApp.Data.ILanguageRepository _languageRepository
 @inject BookStore.WebApp.Data.ICategoryRepository _categoryRepository
 @model BookViewModel
 @{
-    ViewBag.Title = "Add New Book";
+    ViewBag.Title = "Edit Book " + Model.Title;
 }
 
 <div class="container">
-    <h3 class="display-4">Add Book</h3>
-    @if (ViewBag.status==BookStatus.Success)
-    {
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            <strong>Congrats!</strong> You have added a new book successfully.
-            <br>
-            Click <a asp-controller="Book" asp-action="GetBookDetails" asp-route-id="@ViewBag.bookId">Here</a>
-            to view the details.
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-    }
-    else if(ViewBag.status==BookStatus.Fail)
-    {
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            <strong>Error!</strong> Book not added, Use a new Title for the Book.
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-    }
-    <form method="post" enctype="multipart/form-data" asp-controller="Book" asp-action="AddBook">
+    <h3 class="display-4">Edit Book</h3>
+    <form method="post" enctype="multipart/form-data" asp-controller="Book" asp-action="EditBook">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input asp-for="Id" hidden/>
         <div class="form-group">
             <label asp-for="Title"></label>
             <input class="form-control" asp-for="Title" placeholder="Enter the Title of the Book">
@@ -92,7 +71,7 @@
         </div>
 
         <div>
-            <input type="submit" value="Add Book" class="btn btn-primary">
+            <input type="submit" value="Update" class="btn btn-primary">
         </div>
     </form>
 </div>
