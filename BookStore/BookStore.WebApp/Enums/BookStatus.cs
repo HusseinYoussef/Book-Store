@@ -2,7 +2,7 @@ using System;
 
 namespace BookStore.WebApp.Enums
 {
-    public enum AddBookStatus
+    public enum BookStatus
     {
         Default,
         Fail,
