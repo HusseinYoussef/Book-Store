@@ -70,5 +70,7 @@ namespace BookStore.WebApp.ViewModels
 
         [JsonProperty("Pdf")]
         public string PdfPath { get; set; }
+
+        public string UserId { get; set; }
     }
 }
