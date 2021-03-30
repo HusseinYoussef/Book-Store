@@ -20,15 +20,6 @@
             </button>
         </div>
     }
-    else if(ViewBag.status==BookStatus.Fail)
-    {
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            <strong>Error!</strong> Book not added, Use a new Title for the Book.
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-    }
     <form method="post" enctype="multipart/form-data" asp-controller="Book" asp-action="AddBook">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <div class="form-group">
@@ -98,18 +89,5 @@
 </div>
 
 @section scripts{
-    <script>
-        $(document).ready(function () {
-            $('.custom-file-input').on("change", function () {
-                var fileLabel = $(this).next('.custom-file-label');
-                var files = $(this)[0].files;
-                if (files.length > 1) {
-                    fileLabel.html(files.length + ' files selected');
-                }
-                else if (files.length == 1) {
-                    fileLabel.html(files[0].name);
-                }
-            });
-        });
-    </script>
+    <script src="~/js/BookForm.js"></script>
 }
