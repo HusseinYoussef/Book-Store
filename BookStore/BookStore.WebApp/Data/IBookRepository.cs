@@ -13,8 +13,9 @@ namespace BookStore.WebApp.Data
         Task<IEnumerable<Book>> GetLibrary(string userId);
         Task<Book> GetBookById(int id);
         Task DeleteBook(Book book);
-        Task<bool> CheckBookName(string name);
+        Task<bool> CheckBookName(string name, int id=0);
         Task<int> AddBook(Book newBook);
+        Task SaveUpdates();
         Task<IEnumerable<Book>> SearchByTitle(string bookTitle);
         Task<IEnumerable<Book>> SearchByCategory(string bookCategory);
         Task<IEnumerable<Book>> SearchByAuthor(string bookAuthor);

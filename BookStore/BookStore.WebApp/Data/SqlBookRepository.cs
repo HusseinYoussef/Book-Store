@@ -24,9 +24,9 @@ namespace BookStore.WebApp.Data
             return newBook.Id;
         }
 
-        public async Task<bool> CheckBookName(string name)
+        public async Task<bool> CheckBookName(string name, int id)
         {
-            Book book = await _context.Books.AsNoTracking().FirstOrDefaultAsync(b => b.Title==name);
+            Book book = await _context.Books.AsNoTracking().FirstOrDefaultAsync(b => b.Title==name && b.Id != id);
             return book!=null;
         }
 
@@ -112,6 +112,11 @@ namespace BookStore.WebApp.Data
         public async Task DeleteBook(Book book)
         {
             _context.Books.Remove(book);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task SaveUpdates()
+        {
             await _context.SaveChangesAsync();
         }
     }
