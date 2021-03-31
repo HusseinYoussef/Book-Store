@@ -11,6 +11,7 @@ Book Store is a Web Application to store, view, and manipulate books.
 - Search for a book.
 - Download book pdf.
 - Signup, Login and Logout.
+- Change Password
 - View your Library.
 - Edit and Delete your books.
 
@@ -33,19 +34,23 @@ From within BookStore.WebApp directory, run:
 
 ### Home
 
-![home](./Figures/home.png)
+![home](./examples/home.png)
+
+### Books
+
+![home](./examples/books.png)
 
 ### Book Details
 
-![home](./Figures/bookdetails.png)
+![home](./examples/bookdetails.png)
 
 ### Signup
 
-![home](./Figures/signup.png)
+![home](./examples/signup.png)
 
 ### Login
 
-![home](./Figures/login.png)
+![home](./examples/login.png)
 
 ## References
 
