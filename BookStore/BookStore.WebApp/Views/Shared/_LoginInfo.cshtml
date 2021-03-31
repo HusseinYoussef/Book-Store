@@ -11,8 +11,14 @@
             Hello @((roles.Contains("Admin")? " (Admin) ":"") + User.FindFirst("FirstName").Value + " " + User.FindFirst("LastName").Value)
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" asp-controller="Book" asp-action="Library">My Library</a>
-            <a class="dropdown-item" href="#">Favorites</a>
+            <p class="px-4">
+                Signed In as <br/>
+                @User.Identity.Name
+            </p>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" asp-controller="Book" asp-action="Library">Your Library</a>
+            <a class="dropdown-item" href="#">Your Favorites</a>
+            <div class="dropdown-divider"></div>
             <a class="dropdown-item" asp-controller="User" asp-action="ChangePassword">Change password</a>
             <a class="dropdown-item" asp-controller="User" asp-action="Logout">Logout</a>
         </div>
