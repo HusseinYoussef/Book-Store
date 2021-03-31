@@ -44,6 +44,14 @@ From within BookStore.WebApp directory, run:
 
 ![home](./examples/bookdetails.png)
 
+### Search
+
+![home](./examples/search.png)
+
+### Search (No Results)
+
+![home](./examples/no-results.png)
+
 ### Signup
 
 ![home](./examples/signup.png)
