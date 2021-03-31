@@ -1,5 +1,6 @@
 @model IEnumerable<BookViewModel>
-
+@using BookStore.WebApp.Models
+@inject Microsoft.AspNetCore.Identity.SignInManager<User> _signInManager
 @foreach (var book in Model)
 {
     <div class="col-md-4 d-flex">
@@ -12,8 +13,13 @@
                 <p class="card-text">@book.Description</p>
                 <div class="d-flex justify-content-between align-items-center">
                     <div class="btn-group">
-                        <a asp-controller="Book" asp-action="GetBookDetails" asp-route-id="@book.Id" 
-                            class="btn btn-sm btn-outline-secondary">View details</a>
+                        <a asp-controller="Book" asp-action="GetBookDetails" asp-route-id="@book.Id" class="btn btn-sm btn-outline-secondary">
+                            View details
+                        </a>
+                        @if (_signInManager.IsSignedIn(User))
+                        {
+                            <i id="heart" class="far fa-heart pt-1 ml-3" style="font-size:25px;"></i>
+                        }
                     </div>
                     <small class="text-muted">@book.Author</small>
                 </div>
